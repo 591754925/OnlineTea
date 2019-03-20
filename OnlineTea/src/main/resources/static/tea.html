@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>喜茶</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- JS库 ajax 异步通信-->
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    
+    <!-- 弹出框插件 toastr.css -->
+	<link href="toastr.min.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+
+
+    <!-- 展板 -->
+    <div class="jumbotron jumbotron-fluid bg-success text-light py-3">
+        <div class="container">
+            <h1 class="display-3">喜茶</h1>
+            <p class="lead"><span class="badge badge-pill badge-danger">线上点单平台</span></p>
+        </div>
+    </div>
+
+    <!-- 容器 -->
+    <div class="container-fluid" id="app">
+
+        <!-- 行 -->
+        <div class="row">
+
+            <!-- 点单 -->
+            <div class="col-lg-6 col-sm-12">
+                <!-- 饮品和规格 -->
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="">选择饮品</label>
+                            <select class="form-control" name="" id="">
+                                <option>红茶</option>
+                                <option>柠檬茶</option>
+                                <option>绿茶</option>
+                                <option>乌龙茶</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
+                        <div class="form-group">
+                            <label for="">规格</label>
+                            <select class="form-control" name="" id="">
+                                <option>中杯</option>
+                                <option>大杯</option>
+                                <option>超大杯</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- 温度 -->
+                <div class="row my-3">
+                    <div class="col">
+                        <div class="form-check form-check">
+                            <label class="form-check-label d-block">
+                                <input class="form-check-input" type="radio" name="f" id="" value="checkedValue"
+                                    checked> 常温
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check form-check">
+                            <label class="form-check-label d-block">
+                                <input class="form-check-input" type="radio" name="f" id="" value="checkedValue"> 热
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check form-check">
+                            <label class="form-check-label d-block">
+                                <input class="form-check-input" type="radio" name="f" id="" value="checkedValue"> 加冰
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- 糖分 -->
+                <div class="row my-3">
+                    <div class="col">
+                        <button type="button" class="btn btn-danger px-4 mx-3">糖</button>
+                        <button type="button" class="btn btn-outline-danger px-4 mx-3">半糖</button>
+                        <button type="button" class="btn btn-outline-danger px-4 mx-3">少糖</button>
+                        <button type="button" class="btn btn-outline-danger px-4 mx-3">无糖</button>
+                    </div>
+                </div>
+
+                <!-- 配料 -->
+                <div class="row my-3">
+                    <div class="col-3">
+                        <button type="button" name="" id="" class="btn btn-outline-dark btn-block">牛奶</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" name="" id="" class="btn btn-outline-danger btn-block">红豆</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" name="" id="" class="btn btn-outline-primary btn-block">珍珠</button>
+                    </div>
+                    <div class="col-3">
+                        <button type="button" name="" id="" class="btn btn-outline-success btn-block">抹茶</button>
+                    </div>
+                </div>
+
+                <!-- 按钮 -->
+                <div class="row mt-5">
+                    <!-- <div class="offset-1 col-10"> -->
+                    <div class="col">
+                        <button type="button" name="" id="" class="btn btn-danger btn-block">下单</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 订单 -->
+            <div class="col-lg-6 col-sm-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>饮品</th>
+                            <th>规格</th>
+                            <th>糖</th>
+                            <th>温度</th>
+                            <th>辅料</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>红茶</td>
+                            <td>大杯</td>
+                            <td>半塘</td>
+                            <td>热</td>
+                            <td>
+                                <span class="badge badge-pill badge-danger">红豆</span>
+                                <span class="badge badge-pill badge-dark">牛奶</span>
+                                <span class="badge badge-pill badge-primary">布丁</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-block">出货</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>红茶</td>
+                            <td>大杯</td>
+                            <td>半塘</td>
+                            <td>热</td>
+                            <td>
+                                <span class="badge badge-pill badge-danger">红豆</span>
+                                <span class="badge badge-pill badge-dark">牛奶</span>
+                                <span class="badge badge-pill badge-primary">布丁</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-block">出货</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>红茶</td>
+                            <td>大杯</td>
+                            <td>半塘</td>
+                            <td>热</td>
+                            <td>
+                                <span class="badge badge-pill badge-danger">红豆</span>
+                                <span class="badge badge-pill badge-dark">牛奶</span>
+                                <span class="badge badge-pill badge-primary">布丁</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-block">出货</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>红茶</td>
+                            <td>大杯</td>
+                            <td>半塘</td>
+                            <td>热</td>
+                            <td>
+                                <span class="badge badge-pill badge-danger">红豆</span>
+                                <span class="badge badge-pill badge-dark">牛奶</span>
+                                <span class="badge badge-pill badge-primary">布丁</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-block">出货</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>红茶</td>
+                            <td>大杯</td>
+                            <td>半塘</td>
+                            <td>热</td>
+                            <td>
+                                <span class="badge badge-pill badge-danger">红豆</span>
+                                <span class="badge badge-pill badge-dark">牛奶</span>
+                                <span class="badge badge-pill badge-primary">布丁</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-block">出货</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+
+        <script type="text/javascript" src="toastr.min.js"></script>
+
+
+    <script>
+        new Vue({
+			el: '#app',
+			//数据
+			data: {
+                
+            },
+            methods: {},
+            mounted() {},
+            computed: {},
+        });
+
+    </script>
+    
+    <script>
+        //提示插件显示位置 - 中上
+        toastr.options.positionClass = 'toast-top-center';
+    </script>
+
+</body>
+
+</html>
