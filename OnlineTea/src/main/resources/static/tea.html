@@ -12,13 +12,13 @@
         integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
     <!-- JS库 ajax 异步通信-->
-	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <!-- vue.js -->
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    
+
     <!-- 弹出框插件 toastr.css -->
-	<link href="toastr.min.css" rel="stylesheet" type="text/css" />
+    <link href="toastr.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -139,15 +139,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>红茶</td>
-                            <td>大杯</td>
-                            <td>半塘</td>
-                            <td>热</td>
+                        <tr v-for="(item, index) in list">
+                            <td>{{item.name}}</td>
+                            <td>{{item.size}}</td>
+                            <td>{{item.sweetness}}</td>
+                            <td>{{item.temp}}</td>
                             <td>
-                                <span class="badge badge-pill badge-danger">红豆</span>
-                                <span class="badge badge-pill badge-dark">牛奶</span>
-                                <span class="badge badge-pill badge-primary">布丁</span>
+                                <span v-for="(arr, index) in item.access" class="badge badge-pill badge-danger">{{arr}}</span>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-primary btn-block">出货</button>
@@ -231,23 +229,38 @@
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
 
-        <script type="text/javascript" src="toastr.min.js"></script>
+    <script type="text/javascript" src="toastr.min.js"></script>
 
 
     <script>
         new Vue({
-			el: '#app',
-			//数据
-			data: {
-                
+            el: '#app',
+            //数据
+            data: {
+                //订单列表
+                list: [],
             },
-            methods: {},
-            mounted() {},
+            methods: {
+
+            },
+            mounted() {
+                //获取订单列表
+                axios.get('/api/v1/list')
+                    .then(
+                        (res) => {
+                            console.log(res.data);
+                            this.list = res.data;
+                        }
+                    )
+                    .catch(
+                        (error) => { console.log(error); }
+                    );
+            },
             computed: {},
         });
 
     </script>
-    
+
     <script>
         //提示插件显示位置 - 中上
         toastr.options.positionClass = 'toast-top-center';
