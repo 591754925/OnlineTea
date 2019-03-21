@@ -10,38 +10,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.newer.online.web.Order;
-import com.newer.online.web.repository.OrderRepository;
+import com.newer.online.web.Tea;
+import com.newer.online.web.repository.TeaRepository;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/api/v1/order")
-public class OrderController {
+@RequestMapping("/api/v1/tea")
+public class TeaController {
 
 	@Autowired
-	OrderRepository orderrepository;
+	TeaRepository tearepository;
 	
 	@GetMapping("/list")
-	public List<Order> list(){
+	public List<Tea> list(){
 		
-		return orderrepository.findAll();
+		return tearepository.findAll();
 	}
 	
 	@PostMapping("/add")
-	public boolean add(@RequestBody Order o) {
+	public boolean add(@RequestBody Tea t) {
 		
-		orderrepository.insert(o);
+		tearepository.insert(t);
 		return true;
 	}
 	
-	@PostMapping("/save")
-	public boolean update(Order o) {
-		if(orderrepository.findById(o.getId()) == null) {
-			return false;
-		}
-		orderrepository.save(o);
-		return true;
-	}
+	
 	
 	
 }

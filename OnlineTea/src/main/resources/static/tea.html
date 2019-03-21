@@ -49,10 +49,7 @@
                         <div class="form-group">
                             <label for="">选择饮品</label>
                             <select v-model="form.name" class="form-control">
-                                <option>红茶</option>
-                                <option>柠檬茶</option>
-                                <option>绿茶</option>
-                                <option>乌龙茶</option>
+                                <option v-for="(t, index) in teaList">{{t.tea}}</option>
                             </select>
                         </div>
                     </div>
@@ -114,24 +111,9 @@
 
                 <!-- 配料 -->
                 <div class="row my-3">
-                    <div class="col-3">
+                    <div class="col-3" v-for="(a, index) in accList">
                         <label class="form-check-label d-block">
-                            <input type="checkbox" v-model="form.access" value="牛奶">牛奶
-                        </label>
-                    </div>
-                    <div class="col-3">
-                        <label class="form-check-label d-block">
-                            <input type="checkbox" v-model="form.access" value="红豆">红豆
-                        </label>
-                    </div>
-                    <div class="col-3">
-                        <label class="form-check-label d-block">
-                            <input type="checkbox" v-model="form.access" value="珍珠">珍珠
-                        </label>
-                    </div>
-                    <div class="col-3">
-                        <label class="form-check-label d-block">
-                            <input type="checkbox" v-model="form.access" value="抹茶">抹茶
+                            <input type="checkbox" v-model="form.access" :value="a.name">{{a.name}}
                         </label>
                     </div>
                 </div>
@@ -203,9 +185,11 @@
             data: {
                 //订单列表
                 list: [],
+                teaList: [],
+                accList:[],
                 form: {
                     name: '',
-                    size: '',
+                    size: '大杯',
                     sweetness: '',
                     temp: '',
                     access: [],
@@ -222,12 +206,12 @@
                     console.log(this.form);
                 },
                 sumbit: function () {
-                    axios.post('/api/v1/add', this.form)
+                    axios.post('/api/v1/order/add', this.form)
                         .then(
                             (res) => {
                                 if (res.data) {
                                     toastr.success('添加成功');
-                                    axios.get('/api/v1/list')
+                                    axios.get('/api/v1/order/list')
                                         .then(
                                             (res) => {
                                                 console.log(res.data);
@@ -250,7 +234,7 @@
             },
             mounted() {
                 //获取订单列表
-                axios.get('/api/v1/list')
+                axios.get('/api/v1/order/list')
                     .then(
                         (res) => {
                             console.log(res.data);
@@ -260,6 +244,32 @@
                     .catch(
                         (error) => { console.log(error); }
                     );
+                //获取茶品列表
+                axios.get('/api/v1/tea/list')
+                    .then(
+                        (res) => {
+                            console.log(res.data);
+                            this.teaList = res.data;
+                            this.form.name=this.teaList[0].tea;
+                        }
+                    )
+                    .catch(
+                        (error) => { console.log(error); }
+                    );
+
+                //获取辅料列表
+                axios.get('/api/v1/access/list')
+                    .then(
+                        (res) => {
+                            console.log(res.data);
+                            this.accList = res.data;
+                        }
+                    )
+                    .catch(
+                        (error) => { console.log(error); }
+                    );
+
+                
             },
             computed: {},
         });
