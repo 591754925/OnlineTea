@@ -13,7 +13,7 @@
 
     <!-- jQuery库 -->
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    
+
     <!-- JS库 ajax 异步通信-->
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
@@ -142,7 +142,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item, index) in list">
+                        <tr v-for="(item, index) in list" v-if="item.tagle == '未出货'">
                             <td>{{item.name}}</td>
                             <td>{{item.size}}</td>
                             <td>{{item.sweetness}}</td>
@@ -152,7 +152,24 @@
                                     class="badge badge-pill badge-danger">{{arr}}</span>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-block">出货</button>
+                                <button v-if="item.tagle == '未出货'" type="button" @click="update(item)"
+                                    class="btn btn-primary btn-block">出货</button>
+                            </td>
+                        </tr>
+                        <hr />
+                        <tr v-for="(item, index) in list" v-if="item.tagle == '已出货'"
+                            style="text-decoration:line-through; color: red;">
+                            <td>{{item.name}}</td>
+                            <td>{{item.size}}</td>
+                            <td>{{item.sweetness}}</td>
+                            <td>{{item.temp}}</td>
+                            <td>
+                                <span v-for="(arr, index) in item.access"
+                                    class="badge badge-pill badge-danger">{{arr}}</span>
+                            </td>
+                            <td>
+                                <button v-if="item.tagle == '已出货'" type="button"
+                                    class="btn btn-danger btn-block">已出货</button>
                             </td>
                         </tr>
                     </tbody>
@@ -167,7 +184,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
         integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
         crossorigin="anonymous"></script>
@@ -186,7 +203,7 @@
                 //订单列表
                 list: [],
                 teaList: [],
-                accList:[],
+                accList: [],
                 form: {
                     name: '',
                     size: '大杯',
@@ -230,6 +247,33 @@
                         .catch(
                             (error) => { console.log(error); }
                         );
+                },
+                update: function (item) {
+                    item.tagle = "已出货";
+                    axios.post('/api/v1/order/save', item)
+                        .then(
+                            (res) => {
+                                if (res.data) {
+                                    toastr.success('出货成功');
+                                    axios.get('/api/v1/order/list')
+                                        .then(
+                                            (res) => {
+                                                console.log(res.data);
+                                                this.list = res.data;
+                                            }
+                                        )
+                                        .catch(
+                                            (error) => { console.log(error); }
+                                        );
+                                } else {
+                                    toastr.warning('失败');
+                                }
+
+                            }
+                        )
+                        .catch(
+                            (error) => { console.log(error); }
+                        );
                 }
             },
             mounted() {
@@ -250,7 +294,7 @@
                         (res) => {
                             console.log(res.data);
                             this.teaList = res.data;
-                            this.form.name=this.teaList[0].tea;
+                            this.form.name = this.teaList[0].tea;
                         }
                     )
                     .catch(
@@ -269,7 +313,7 @@
                         (error) => { console.log(error); }
                     );
 
-                
+
             },
             computed: {},
         });
@@ -278,7 +322,7 @@
 
     <script>
         //提示插件显示位置 - 中上
-        toastr.options.positionClass = 'toast-top-center';
+        toastr.options.positionClass = 'toast-bottom-center';
     </script>
 
 </body>

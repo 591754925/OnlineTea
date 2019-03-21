@@ -35,7 +35,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/save")
-	public boolean update(Order o) {
+	public boolean update(@RequestBody Order o) {
 		if(orderrepository.findById(o.getId()) == null) {
 			return false;
 		}
