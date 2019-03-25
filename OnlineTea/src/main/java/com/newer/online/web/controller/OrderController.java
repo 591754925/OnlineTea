@@ -27,9 +27,9 @@ public class OrderController {
 		return orderrepository.findAll();
 	}
 	
+	
 	@PostMapping("/add")
 	public boolean add(@RequestBody Order o) {
-		
 		orderrepository.insert(o);
 		return true;
 	}
